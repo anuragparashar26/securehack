@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Tester and Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #bdc3c7,  #2c3e50);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            width: 400px;
+
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .password-input, .generator-input {
+            width: 92%;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+
+        input[type="password"],
+        input[type="text"],
+        input[type="number"],
+        input[type="checkbox"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .strength-indicator {
+            margin-bottom: 20px;
+        }
+
+        #progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .weak {
+            background-color: red;
+        }
+
+        .medium {
+            background-color: orange;
+        }
+
+        .strong {
+            background-color: green;
+        }
+
+        #criteria-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #criteria-list li {
+            margin-bottom: 5px;
+        }
+
+        #criteria-list li.valid {
+            color: green;
+        }
+
+        #criteria-list li.invalid {
+            color: red;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .generator-input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .generated-password-container {
+            margin-top: 15px;
+        }
+
+        .generated-password-container input {
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Password Generator</h1>
+        <div class="generator-input">
+            <label for="length-input">Length:</label>
+            <input type="number" id="length-input" value="12" min="1" max="128">
+
+            <label><input type="checkbox" id="uppercase-input" checked> Include Uppercase Letters</label>
+            <label><input type="checkbox" id="lowercase-input" checked> Include Lowercase Letters</label>
+            <label><input type="checkbox" id="numbers-input" checked> Include Numbers</label>
+            <label><input type="checkbox" id="special-input" checked> Include Special Characters</label>
+
+            <button id="generate-btn">Generate Password</button>
+
+            <div class="generated-password-container">
+                <label for="generated-password">Generated Password:</label>
+                <input type="text" id="generated-password" readonly>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <h1>Password Strength Tester</h1>
+        <div class="password-input">
+            <label for="password">Enter Password:</label>
+            <input type="password" id="password" placeholder="Enter password" oninput="checkPasswordStrength()">
+        </div>
+        <div class="strength-indicator">
+            <p>Password Strength: <span id="strength-text">Weak</span></p>
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <ul id="criteria-list">
+            <li id="length">At least 8 characters</li>
+            <li id="uppercase">At least 1 uppercase letter</li>
+            <li id="lowercase">At least 1 lowercase letter</li>
+            <li id="number">At least 1 number</li>
+            <li id="special">At least 1 special character (!@#$%^&*)</li>
+        </ul>
+    </div>
+
+    
+
+    <script>
+        function checkPasswordStrength() {
+            const password = document.getElementById("password").value;
+            const strengthText = document.getElementById("strength-text");
+            const progressBar = document.getElementById("progress-bar");
+            
+            let strength = 0;
+
+            const lengthCriteria = document.getElementById("length");
+            const uppercaseCriteria = document.getElementById("uppercase");
+            const lowercaseCriteria = document.getElementById("lowercase");
+            const numberCriteria = document.getElementById("number");
+            const specialCriteria = document.getElementById("special");
+
+            if (password.length >= 8) {
+                strength++;
+                lengthCriteria.classList.add("valid");
+                lengthCriteria.classList.remove("invalid");
+            } else {
+                lengthCriteria.classList.add("invalid");
+                lengthCriteria.classList.remove("valid");
+            }
+
+            if (/[A-Z]/.test(password)) {
+                strength++;
+                uppercaseCriteria.classList.add("valid");
+                uppercaseCriteria.classList.remove("invalid");
+            } else {
+                uppercaseCriteria.classList.add("invalid");
+                uppercaseCriteria.classList.remove("valid");
+            }
+
+            if (/[a-z]/.test(password)) {
+                strength++;
+                lowercaseCriteria.classList.add("valid");
+                lowercaseCriteria.classList.remove("invalid");
+            } else {
+                lowercaseCriteria.classList.add("invalid");
+                lowercaseCriteria.classList.remove("valid");
+            }
+
+            if (/\d/.test(password)) {
+                strength++;
+                numberCriteria.classList.add("valid");
+                numberCriteria.classList.remove("invalid");
+            } else {
+                numberCriteria.classList.add("invalid");
+                numberCriteria.classList.remove("valid");
+            }
+
+            if (/[@$!%*?&#]/.test(password)) {
+                strength++;
+                specialCriteria.classList.add("valid");
+                specialCriteria.classList.remove("invalid");
+            } else {
+                specialCriteria.classList.add("invalid");
+                specialCriteria.classList.remove("valid");
+            }
+
+            if (strength <= 2) {
+                progressBar.className = "weak";
+                strengthText.textContent = "Weak";
+            } else if (strength === 3 || strength === 4) {
+                progressBar.className = "medium";
+                strengthText.textContent = "Medium";
+            } else if (strength === 5) {
+                progressBar.className = "strong";
+                strengthText.textContent = "Strong";
+            }
+
+            progressBar.style.width = (strength * 20) + "%";
+        }
+
+        document.getElementById('generate-btn').addEventListener('click', () => {
+            const length = parseInt(document.getElementById('length-input').value);
+            const includeUppercase = document.getElementById('uppercase-input').checked;
+            const includeLowercase = document.getElementById('lowercase-input').checked;
+            const includeNumbers = document.getElementById('numbers-input').checked;
+            const includeSpecial = document.getElementById('special-input').checked;
+
+            const password = generatePassword(length, includeUppercase, includeLowercase, includeNumbers, includeSpecial);
+            document.getElementById('generated-password').value = password;
+        });
+
+        function generatePassword(length, useUpper, useLower, useNumbers, useSpecial) {
+            const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const lowerChars = "abcdefghijklmnopqrstuvwxyz";
+            const numberChars = "0123456789";
+            const specialChars = "!@#$%^&*";
+
+            let validChars = "";
+            if (useUpper) validChars += upperChars;
+            if (useLower) validChars += lowerChars;
+            if (useNumbers) validChars += numberChars;
+            if (useSpecial) validChars += specialChars;
+
+            if (validChars.length === 0) return "";
+
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * validChars.length);
+                password += validChars[randomIndex];
+            }
+            return password;
+        }
+    </script>
+</body>
+</html>

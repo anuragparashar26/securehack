@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #bdc3c7,  #2c3e50);
+            padding: 20px;
+            color: #fff;
+        }
+    
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+    
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+    
+        #sign-out-button {
+            width: auto;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #dc3545;
+            padding: 8px 15px;
+            font-size: 1em; 
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        #sign-out-button:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+    
+        #question-text {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #ffffff;
+        }
+    
+        #options {
+            margin-bottom: 20px;
+        }
+    
+        #result {
+            text-align: center;
+        }
+    
+        #score-text {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+    
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    </style>
+    
+</head>
+<body>
+    <button id="sign-out-button">Sign Out</button>
+    <div class="container">
+        <h1>Cybersecurity Quiz</h1>
+        <div id="quiz-container">
+            <div id="question-container">
+                <p id="question-text"></p>
+                <div id="options"></div>
+                <button id="next-button">Next</button>
+            </div>
+            <div id="result" class="hidden">
+                <h2 id="score-text"></h2>
+                <button id="retry-button" class="hidden">Try Again</button> <!-- Hidden initially -->
+            </div>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "What does 'Phishing' mean?",
+                options: ["A type of fishing", "A method to steal data", "A type of malware", "None of the above"],
+                answer: 1
+            },
+            {
+                question: "What is a firewall?",
+                options: ["A physical wall", "A network security device", "A type of virus", "None of the above"],
+                answer: 1
+            },
+            {
+                question: "What is two-factor authentication?",
+                options: ["Using two passwords", "Two-step verification", "A type of encryption", "None of the above"],
+                answer: 1
+            },
+            {
+                question: "What does VPN stand for?",
+                options: ["Virtual Private Network", "Virtual Public Network", "Very Private Network", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is malware?",
+                options: ["Hardware malfunction", "Malicious software", "Software update", "None of the above"],
+                answer: 1
+            },
+            {
+                question: "What is social engineering?",
+                options: ["Engineering social networks", "Manipulating people to gain information", "Building social media", "None of the above"],
+                answer: 1
+            },
+            {
+                question: "What is a DDoS attack?",
+                options: ["Data Distribution over a Server", "Distributed Denial of Service", "Data Denial of Service", "None of the above"],
+                answer: 1
+            },
+            {
+                question: "What is encryption?",
+                options: ["Concealing information", "Opening files", "Sending files", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a strong password?",
+                options: ["123456", "password", "A mix of letters, numbers, and symbols", "None of the above"],
+                answer: 2
+            },
+            {
+                question: "What is a phishing email?",
+                options: ["An email with a fish", "An email that tricks you into giving personal info", "An email from a friend", "None of the above"],
+                answer: 1
+            },
+            {
+                question: "What is ransomware?",
+                options: ["A type of malware that locks files", "A type of firewall", "A phishing method", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a brute force attack?",
+                options: ["Guessing passwords until the correct one is found", "Using malware", "A phishing technique", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What does SSL stand for?",
+                options: ["Secure Socket Layer", "Secure System Layer", "System Security Layer", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is the purpose of antivirus software?",
+                options: ["To protect against malware", "To speed up the computer", "To create backups", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a security patch?",
+                options: ["An update to fix vulnerabilities", "A piece of software", "A type of encryption", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is phishing?",
+                options: ["An email scam", "A social engineering tactic", "Both A and B", "None of the above"],
+                answer: 2
+            },
+            {
+                question: "What is an IP address?",
+                options: ["A unique identifier for a device on a network", "A type of firewall", "An email address", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a VPN used for?",
+                options: ["To encrypt internet traffic", "To bypass geo-restrictions", "To protect privacy online", "All of the above"],
+                answer: 3
+            },
+            {
+                question: "What is a Trojan horse?",
+                options: ["A type of malware", "A type of encryption", "A computer game", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is data encryption?",
+                options: ["Converting information into code", "Sending information", "Storing information", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a cybersecurity incident?",
+                options: ["A data breach", "A phishing attempt", "Any security violation", "All of the above"],
+                answer: 3
+            },
+            {
+                question: "What is a secure password?",
+                options: ["A mix of letters, numbers, and symbols", "Only letters", "Only numbers", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What does a security certificate do?",
+                options: ["Authenticates a website's identity", "Encrypts data", "Detects viruses", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a botnet?",
+                options: ["A network of compromised computers", "A type of software", "A firewall", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is the purpose of an intrusion detection system (IDS)?",
+                options: ["To monitor network traffic for suspicious activity", "To create backups", "To encrypt data", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a backdoor in cybersecurity?",
+                options: ["A method to bypass normal authentication", "A type of malware", "A network device", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a cyber attack?",
+                options: ["An attempt to damage or disrupt systems", "A system update", "A security patch", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is spear phishing?",
+                options: ["A targeted phishing attack", "A type of malware", "An email scam", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is the purpose of two-factor authentication (2FA)?",
+                options: ["To add an extra layer of security", "To speed up logins", "To create backups", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is the most common form of cyber attack?",
+                options: ["Phishing", "DDoS", "Malware", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is the main goal of cybersecurity?",
+                options: ["To protect networks and data", "To create software", "To sell products", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a cybersecurity framework?",
+                options: ["A set of guidelines for managing cybersecurity risks", "A type of software", "A firewall", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is an ethical hacker?",
+                options: ["A hacker who tests security", "A criminal hacker", "A malware developer", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is the purpose of a data breach notification?",
+                options: ["To inform affected individuals of a data breach", "To create backups", "To sell data", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is a computer virus?",
+                options: ["Malicious software that replicates itself", "A type of firewall", "An update", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What does GDPR stand for?",
+                options: ["General Data Protection Regulation", "General Data Privacy Regulation", "Global Data Protection Regulation", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is the first step in an incident response plan?",
+                options: ["Preparation", "Detection", "Containment", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is malware?",
+                options: ["Malicious software designed to harm or exploit", "A type of hardware", "An antivirus", "None of the above"],
+                answer: 0
+            },
+            {
+                question: "What is social engineering?",
+                options: ["Manipulating people into divulging confidential information", "A programming language", "A hardware tool", "None of the above"],
+                answer: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedQuestions = [];
+
+        function shuffleQuestions(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function selectQuestions(array, count) {
+            return array.slice(0, count);
+        }
+
+        function loadQuestion() {
+            const questionContainer = document.getElementById("question-container");
+            const questionText = document.getElementById("question-text");
+            const optionsContainer = document.getElementById("options");
+
+            optionsContainer.innerHTML = "";
+
+            if (currentQuestionIndex < selectedQuestions.length) {
+                const currentQuestion = selectedQuestions[currentQuestionIndex];
+                questionText.textContent = currentQuestion.question;
+
+                currentQuestion.options.forEach((option, index) => {
+                    optionsContainer.innerHTML += `
+                        <input type="radio" name="option" value="${index}" required> ${option}<br>
+                    `;
+                });
+
+                questionContainer.classList.remove("hidden");
+                document.getElementById("result").classList.add("hidden");
+                document.getElementById("retry-button").classList.add("hidden"); // Hide retry button while quiz is ongoing
+            } else {
+                showResult();
+            }
+        }
+
+        document.getElementById("next-button").addEventListener("click", () => {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            if (selectedOption) {
+                if (parseInt(selectedOption.value) === selectedQuestions[currentQuestionIndex].answer) {
+                    score++;
+                }
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        });
+
+        function showResult() {
+            const resultContainer = document.getElementById("result");
+            document.getElementById("score-text").textContent = `Your Score: ${score} out of ${selectedQuestions.length}`;
+            resultContainer.classList.remove("hidden");
+            document.getElementById("question-container").classList.add("hidden");
+
+            const username = localStorage.getItem('username');
+            if (username) {
+                let scores = JSON.parse(localStorage.getItem('scores')) || {};
+                scores[username] = (scores[username] || 0) + score; 
+                localStorage.setItem('scores', JSON.stringify(scores)); 
+            }
+
+            document.getElementById("retry-button").classList.remove("hidden"); // Show retry button at the end
+        }
+
+        document.getElementById("sign-out-button").addEventListener("click", () => {
+            localStorage.removeItem('username'); 
+            window.location.href = 'signin.html'; 
+        });
+
+        document.getElementById("retry-button").addEventListener("click", () => {
+            currentQuestionIndex = 0;
+            score = 0; 
+            shuffleQuestions(questions); 
+            selectedQuestions = selectQuestions(questions, 7);
+            loadQuestion(); 
+        });
+
+        shuffleQuestions(questions);
+        selectedQuestions = selectQuestions(questions, 7);
+        loadQuestion();
+    </script>
+</body>
+</html>

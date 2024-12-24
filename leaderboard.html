@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #bdc3c7,  #2c3e50);
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Leaderboard</h1>
+        <ul id="leaderboard"></ul>
+    </div>
+    <script>
+        const leaderboard = document.getElementById('leaderboard');
+        const scores = JSON.parse(localStorage.getItem('scores')) || {};
+
+        const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+        sortedScores.forEach(([username, score]) => {
+            const li = document.createElement('li');
+            li.textContent = `${username}: ${score}`;
+            leaderboard.appendChild(li);
+        });
+    </script>
+</body>
+</html>

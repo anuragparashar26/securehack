@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Real-Life Scenarios</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #bdc3c7,  #2c3e50);
+            padding: 20px;
+            color: #fff;
+        }
+    
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+    
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+    
+        #sign-out-button {
+            width: auto;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #dc3545;
+            padding: 8px 15px;
+            font-size: 1em; 
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        #sign-out-button:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+    
+        #question-text {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #ffffff;
+        }
+    
+        #options {
+            margin-bottom: 20px;
+        }
+    
+        #result {
+            text-align: center;
+        }
+    
+        #score-text {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+    
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    </style>
+    
+</head>
+<body>
+    <button id="sign-out-button">Sign Out</button>
+    <div class="container">
+        <h1>Cybersecurity Real-Life Scenarios</h1>
+        <div id="quiz-container">
+            <div id="question-container">
+                <p id="question-text"></p>
+                <div id="options"></div>
+                <button id="next-button">Next</button>
+            </div>
+            <div id="result" class="hidden">
+                <h2 id="score-text"></h2>
+                <button id="retry-button" class="hidden">Try Again</button> <!-- Hidden initially -->
+            </div>
+        </div>
+    </div>
+    <script>
+         const questions = [
+            {
+                question: "You receive an email from your bank asking you to verify your account. What should you do?",
+                options: [
+                    "Click the link and verify your account.",
+                    "Call the bank directly using the number on their official website.",
+                    "Ignore the email.",
+                    "Reply to the email asking for more information."
+                ],
+                answer: 1
+            },
+            {
+                question: "You notice your computer is running slowly and your antivirus software is disabled. What is the most likely cause?",
+                options: [
+                    "You need to upgrade your hardware.",
+                    "Your computer has been infected with malware.",
+                    "Your internet connection is slow.",
+                    "You haven't installed updates."
+                ],
+                answer: 1
+            },
+            {
+                question: "You find a USB drive on the ground outside your office. What should you do?",
+                options: [
+                    "Plug it into your computer to see what files are on it.",
+                    "Hand it to IT for safe disposal.",
+                    "Keep it in your desk drawer.",
+                    "Throw it in the trash."
+                ],
+                answer: 1
+            },
+            {
+                question: "Your colleague shares their password with you because they forgot yours. Is this acceptable?",
+                options: [
+                    "Yes, as long as you both trust each other.",
+                    "No, sharing passwords is against security policy.",
+                    "It depends on the situation.",
+                    "Only if it's for work-related purposes."
+                ],
+                answer: 1
+            },
+            {
+                question: "You receive a pop-up that says your computer is infected and you should call a number. What should you do?",
+                options: [
+                    "Call the number immediately.",
+                    "Close the pop-up and run a virus scan.",
+                    "Ignore it.",
+                    "Take a screenshot and report it."
+                ],
+                answer: 1
+            },
+            {
+                question: "You're working remotely and receive a request to share your screen for a meeting. What should you check first?",
+                options: [
+                    "That the meeting is legitimate and from a known source.",
+                    "That your computer is fully updated.",
+                    "That your internet connection is strong.",
+                    "Nothing, just share your screen."
+                ],
+                answer: 0
+            },
+            {
+                question: "What is the best practice for creating a secure password?",
+                options: [
+                    "Use your name and birthdate.",
+                    "Make it at least 12 characters long with a mix of letters, numbers, and symbols.",
+                    "Use the same password for all accounts.",
+                    "Write it down and keep it under your keyboard."
+                ],
+                answer: 1
+            },
+            {
+                question: "If your company’s website is attacked and customer data is compromised, what should you do?",
+                options: [
+                    "Notify the affected customers and regulatory bodies.",
+                    "Ignore the issue.",
+                    "Attempt to fix the website and hope no one notices.",
+                    "Post about it on social media."
+                ],
+                answer: 0
+            },
+            {
+                question: "You are at a coffee shop and want to connect to their Wi-Fi. What should you consider first?",
+                options: [
+                    "Using a VPN to protect your data.",
+                    "The speed of the Wi-Fi.",
+                    "That it’s free.",
+                    "Whether you need to purchase anything."
+                ],
+                answer: 0
+            },
+            {
+                question: "A friend asks you to help them with a computer problem and requests your login credentials for a specific account. What should you do?",
+                options: [
+                    "Share your credentials with them.",
+                    "Tell them you can help them without needing their credentials.",
+                    "Ask them to send you their credentials.",
+                    "Ignore their request."
+                ],
+                answer: 1
+            },
+            {
+                question: "You notice unusual activity in your bank account. What is your first step?",
+                options: [
+                    "Call your bank immediately.",
+                    "Change your password.",
+                    "Ignore it.",
+                    "Check your recent transactions."
+                ],
+                answer: 0
+            },
+            {
+                question: "What should you do if you suspect a phishing attempt?",
+                options: [
+                    "Report it to your IT department or the appropriate authority.",
+                    "Ignore it.",
+                    "Respond to the sender.",
+                    "Forward it to your friends."
+                ],
+                answer: 0
+            },
+            {
+                question: "Your social media account gets hacked. What is your immediate action?",
+                options: [
+                    "Change your password and enable two-factor authentication.",
+                    "Post about it online.",
+                    "Ignore it.",
+                    "Ask your friends to report it."
+                ],
+                answer: 0
+            },
+            {
+                question: "If you receive a suspicious link in a text message from an unknown number, what should you do?",
+                options: [
+                    "Click the link to see what it is.",
+                    "Delete the message without clicking.",
+                    "Forward it to your friends.",
+                    "Reply to the message."
+                ],
+                answer: 1
+            },
+            {
+                question: "When is it appropriate to update your software?",
+                options: [
+                    "Whenever updates are available.",
+                    "Only when your computer starts running slow.",
+                    "Never, updates can cause problems.",
+                    "Only when you remember."
+                ],
+                answer: 0
+            },
+            {
+                question: "You receive a request to connect from someone you don’t know on LinkedIn. What should you do?",
+                options: [
+                    "Accept the request immediately.",
+                    "Ignore or delete the request.",
+                    "Message them to ask how they found you.",
+                    "Report them."
+                ],
+                answer: 1
+            },
+            {
+                question: "What is the safest way to dispose of sensitive documents?",
+                options: [
+                    "Shred them.",
+                    "Throw them in the recycling bin.",
+                    "Burn them.",
+                    "Leave them on your desk."
+                ],
+                answer: 0
+            },
+            {
+                question: "If your smartphone prompts you to update its operating system, what should you do?",
+                options: [
+                    "Update it immediately for security reasons.",
+                    "Ignore it; updates are not important.",
+                    "Only update if you have time.",
+                    "Check if it's a reliable update before proceeding."
+                ],
+                answer: 0
+            },
+            {
+                question: "You are working on a public computer. What should you avoid doing?",
+                options: [
+                    "Logging into personal accounts.",
+                    "Using secure websites.",
+                    "Clearing the browser history.",
+                    "Using a VPN."
+                ],
+                answer: 0
+            },
+            {
+                question: "How can you verify if a website is secure before entering personal information?",
+                options: [
+                    "Look for 'https://' in the URL and a padlock icon.",
+                    "Check if the website looks professional.",
+                    "If the website is popular.",
+                    "All of the above."
+                ],
+                answer: 0
+            },
+            {
+                question: "You receive a job offer via email from a company you’ve never applied to. What should you do?",
+                options: [
+                    "Respond immediately and provide your details.",
+                    "Research the company and the offer before responding.",
+                    "Ignore the email.",
+                    "Call the number in the email."
+                ],
+                answer: 1
+            },
+            {
+                question: "What should you do if you suspect your computer has been infected with malware?",
+                options: [
+                    "Disconnect it from the internet and run an antivirus scan.",
+                    "Ignore it and hope it goes away.",
+                    "Continue using it normally.",
+                    "Call tech support."
+                ],
+                answer: 0
+            },
+            {
+                question: "What is the most important aspect of password management?",
+                options: [
+                    "Using the same password for multiple accounts.",
+                    "Regularly updating passwords and using unique passwords.",
+                    "Writing down passwords and storing them in a drawer.",
+                    "Sharing passwords with friends for convenience."
+                ],
+                answer: 1
+            },
+            {
+                question: "When connecting to a public Wi-Fi network, what should you do?",
+                options: [
+                    "Avoid accessing sensitive accounts.",
+                    "Use it as you would at home.",
+                    "Share your credentials.",
+                    "None of the above."
+                ],
+                answer: 0
+            },
+            {
+                question: "What should you do if your work computer is lost or stolen?",
+                options: [
+                    "Report it to your employer immediately.",
+                    "Ignore it.",
+                    "Try to find it yourself.",
+                    "Post about it on social media."
+                ],
+                answer: 0
+            },
+            {
+                question: "What is a common sign of a phishing email?",
+                options: [
+                    "Poor grammar and spelling mistakes.",
+                    "A professional-looking logo.",
+                    "Personalized greetings.",
+                    "None of the above."
+                ],
+                answer: 0
+            },
+            {
+                question: "If you receive an unexpected software update, what should you do?",
+                options: [
+                    "Research the update before proceeding.",
+                    "Update immediately without checking.",
+                    "Ignore it.",
+                    "Ask friends if they have received it."
+                ],
+                answer: 0
+            },
+            {
+                question: "What should you consider when creating a backup of your important files?",
+                options: [
+                    "Use multiple backup methods and locations.",
+                    "Only back up files once a year.",
+                    "Only back up files that are not important.",
+                    "Trust your computer to keep files safe."
+                ],
+                answer: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedQuestions = [];
+
+        function shuffleQuestions(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function selectQuestions(array, count) {
+            return array.slice(0, count);
+        }
+
+        function loadQuestion() {
+            const questionContainer = document.getElementById("question-container");
+            const questionText = document.getElementById("question-text");
+            const optionsContainer = document.getElementById("options");
+
+            optionsContainer.innerHTML = "";
+
+            if (currentQuestionIndex < selectedQuestions.length) {
+                const currentQuestion = selectedQuestions[currentQuestionIndex];
+                questionText.textContent = currentQuestion.question;
+
+                currentQuestion.options.forEach((option, index) => {
+                    optionsContainer.innerHTML += `
+                        <input type="radio" name="option" value="${index}" required> ${option}<br>
+                    `;
+                });
+
+                questionContainer.classList.remove("hidden");
+                document.getElementById("result").classList.add("hidden");
+                document.getElementById("retry-button").classList.add("hidden"); // Hide retry button while quiz is ongoing
+            } else {
+                showResult();
+            }
+        }
+
+        document.getElementById("next-button").addEventListener("click", () => {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            if (selectedOption) {
+                if (parseInt(selectedOption.value) === selectedQuestions[currentQuestionIndex].answer) {
+                    score++;
+                }
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        });
+
+        function showResult() {
+            const resultContainer = document.getElementById("result");
+            document.getElementById("score-text").textContent = `Your Score: ${score} out of ${selectedQuestions.length}`;
+            resultContainer.classList.remove("hidden");
+            document.getElementById("question-container").classList.add("hidden");
+
+            const username = localStorage.getItem('username');
+            if (username) {
+                let scores = JSON.parse(localStorage.getItem('scores')) || {};
+                scores[username] = (scores[username] || 0) + score; 
+                localStorage.setItem('scores', JSON.stringify(scores)); 
+            }
+
+            document.getElementById("retry-button").classList.remove("hidden"); // Show retry button at the end
+        }
+
+        document.getElementById("sign-out-button").addEventListener("click", () => {
+            localStorage.removeItem('username'); 
+            window.location.href = 'signin.html'; 
+        });
+
+        document.getElementById("retry-button").addEventListener("click", () => {
+            currentQuestionIndex = 0;
+            score = 0; 
+            shuffleQuestions(questions); 
+            selectedQuestions = selectQuestions(questions, 7);
+            loadQuestion(); 
+        });
+
+        shuffleQuestions(questions);
+        selectedQuestions = selectQuestions(questions, 7);
+        loadQuestion();
+    </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirusTotal API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #bdc3c7,  #2c3e50);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="url"] {
+        width: 96%;
+        padding: 10px; 
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease;
+}
+
+
+        input[type="url"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #007bff;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        .malicious {
+            background-color: #f8d7da; 
+            color: #721c24;
+            border-left: 6px solid #f5c6cb;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .clean {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 6px solid #c3e6cb;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .unrated {
+            background-color: #e2e3e5;
+            color: #383d41; 
+            border-left: 6px solid #c6c8ca; 
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            button {
+                font-size: 1em;
+            }
+
+            input[type="url"] {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VirusTotal API Integration</h1>
+        <form id="scanForm">
+            <label for="url">Enter URL to scan:</label>
+            <input type="url" id="url" required placeholder="example.com">
+            <button type="submit">Scan URL</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.getElementById('scanForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            let urlInput = document.getElementById('url').value.trim();
+            
+    
+            if (!/^https?:\/\//i.test(urlInput)) {
+                urlInput = 'https://' + urlInput; 
+            }
+
+            const apiKey = ''; 
+            const apiUrl = `https://www.virustotal.com/vtapi/v2/url/report?apikey=${apiKey}&resource=${encodeURIComponent(urlInput)}`;
+
+        
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+
+            try {
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+
+                
+                const vtData = JSON.parse(data.contents);
+
+                if (vtData.response_code === 1) {
+                    displayResult(vtData);
+                } else {
+                    document.getElementById('result').innerHTML = `<p>No report found for this URL.</p>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = `<p>Failed to fetch the report.</p>`;
+            }
+        });
+
+        function displayResult(data) {
+            let resultHTML = `<h2>Scan Report for ${data.url}</h2>`;
+            resultHTML += `<p>Positives: <strong>${data.positives}</strong> / ${data.total}</p>`;
+            resultHTML += `<p>Last Scan Date: ${new Date(data.last_analysis_date * 1000).toLocaleString()}</p>`;
+            resultHTML += `<h3>Scan Details:</h3><ul>`;
+
+            for (const [key, value] of Object.entries(data.scans)) {
+                let className = 'unrated'; 
+                if (value.positives > 0) {
+                    className = 'malicious'; 
+                } else if (value.result && value.result.toLowerCase().includes("clean")) {
+                    className = 'clean';
+                }
+
+                resultHTML += `<li class="${className}">${key}: ${value.result ? value.result : 'No result'}</li>`;
+            }
+
+            resultHTML += `</ul>`;
+            document.getElementById('result').innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>

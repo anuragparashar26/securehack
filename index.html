@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberTron</title>
+    <link rel="icon" href= "static/play.png"
+        type="image"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/caros" >
+    <script>
+        function copyToClipboard() {
+            const url = window.location.href; 
+            navigator.clipboard.writeText(url).then(() => {
+                alert('URL copied to clipboard!'); 
+            }).catch(err => {
+                console.error('Error copying text: ', err); 
+            });
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="static/logo.png" height="36px" width="300px">
+        </div>
+        <div class="about">
+            <a href="#pg3" class="play-link">About</a>
+        </div>
+        <div class="con">
+            <a href="leaderboard.html" class="play-link"><span>Leaderboard</span></a>
+        </div>
+        
+        <div class="con">
+            <a href="#pg3" class="play-link">Contact Us</a>
+        </div>
+        <div class="dark">
+            <img src="static/play.png" 
+            height="20px" width="20px" alt="Dark Mode">
+        </div>
+        <div class="share">
+            <img src="https://img.icons8.com/?size=100&id=84042&format=png&color=000000" 
+            height="20px" width="20px" alt="Share" onclick="copyToClipboard()" style="cursor:pointer;">
+        </div>
+        <div class="signin">
+            <a href="signin.html" class="play-link"><span>Sign in</span></a>
+        </div>
+    </header>
+    
+    <div class="pg1">
+        <div class="title">
+            <b>CyberTron</b> <br> Train. Defend. Conquer.
+            <a href="signin.html" class="play-link">
+                <div class="title-link">
+                    <img src="static/play.png" alt="Play Button" class="play-img">
+                    <span>Start Now</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="pg2">
+
+        <div class="tools-section">
+            <h2>Tools</h2>
+            <div class="tools-container">
+                <div class="bio-container">
+                    <img src="static/pass.png" alt="pic" class="pic">
+                    <h1>Password Generator & Strength Checker</h1>
+                    <a href="pass.html" class="play-link">
+                        <div class="play">
+                            <img src="static/play.png" alt="Play Button" class="play-img">
+                            <span>Check Out</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="bio-container">
+                    <img src="static/virus.png" alt="pic" class="pic">
+                    <h1>Check for Malicious Site</h1>
+                    <a href="check.html" class="play-link">
+                        <div class="play">
+                            <img src="static/play.png" alt="Play Button" class="play-img">
+                            <span>Check Out</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    
+    
+        <div class="games-section">
+            <h2>Games</h2>
+            <div class="games-container">
+                <div class="bio-container">
+                    <img src="static/quiz.png" alt="pic" class="pic">
+                    <h1>Quiz</h1>
+                    <a href="quiz.html" class="play-link">
+                        <div class="play">
+                            <img src="static/play.png" alt="Play Button" class="play-img">
+                            <span>Check Out</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="bio-container">
+                    <img src="static/tool.png" alt="pic" class="pic">
+                    <h1>Real Life Scenarios</h1>
+                    <a href="real.html" class="play-link">
+                        <div class="play">
+                            <img src="static/play.png" alt="Play Button" class="play-img">
+                            <span>Check Out</span>
+                        </div>
+                    </a>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="pg3" id="pg3"> 
+        <div class="about-section">
+            <div class="about-image">
+                <img src="static/biglogo.png" alt="About Us" class="about-img">
+            </div>
+            <div class="about-text">
+                <h2>About CyberTron</h2>
+                <p>
+                    Welcome to CyberTron, where we empower you with the knowledge and 
+                    skills to navigate the cybersecurity landscape. Our platform provides 
+                    a variety of tools and games to help you train, defend, and conquer 
+                    potential threats in the digital world.
+                </p>
+                <p>
+                    Join us on this journey to become a cybersecurity champion!
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    
+    <footer>
+        <div class="footer-content">
+            <div class="logofoot">
+                <img src="static/logo.png" height="50px" width="300px">
+            </div>
+            <div class="copyright-text">
+                2024 cybertron.app. All rights reserved.
+            </div> 
+        </div>
+        <div class="footcontact">
+            Email: cybertronapp@protonmail.com<br>
+            Phone: +918745761854
+        </div>
+        <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+        </div>
+    </footer>    
+</body>
+</html>
